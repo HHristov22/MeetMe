@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+
+<head>
+	<meta charset="UTF-8">
+	<title>MEETme</title>
+
+	<!--website styles-->
+	<link rel="stylesheet" href="./style.css">
+	<!--google fonts-->
+	<link href="https://fonts.googleapis.com/css2?family=Joan&display=swap" rel="stylesheet">
+	<!--		JS files imports-->
+	<script src="./scripts/registration.js"></script>
+</head>
+
+<body>
+	<header>
+		<nav>
+			<div class="navbar" id="navbarNav">
+				<div id="logged-buttons">
+					<ul class="nav-ul">
+						<li class="nav-item">
+							<a href="./login.html">Sign in</a>
+						</li>
+						<li class="nav-item">
+							<a href="./register.html">Sign up</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+		<h1>Sign up to MEETme</h1>
+	</header>
+
+	<main class="container-fluid">
+		<!-- <form id="registration-form" class="form needs-validation" method="post" action="register_user.php" novalidate> -->
+		<form id="registration-form" class="form needs-validation" method="post" novalidate>
+			<div class="input-container">
+				<label for="username" class="form-label">FN:</label>
+				<input type="text" class="form-control" id="username" placeholder="Enter FN or Username" name="username"
+					pattern="[0-9]{5}"
+					maxlength="46" required oninvalid="this.setCustomValidity(' ')">
+					<!-- maxlength="25" required oninvalid="this.setCustomValidity(' ')"> -->
+				<div class="invalid-feedback"></div>
+			</div>
+			
+			<div class="input-container">
+				<label for="fullname" class="form-label">Full Name:</label>
+				<input type="text" class="form-control" id="fullname" placeholder="Enter full name" name="fullname"
+				pattern="[A-Z]{1}[a-z]{1,15}[ ]{1}[A-Z]{1}[a-z]{1,15}[ ]{1}[A-Z]{1}[a-z]{1,15}"
+				maxlength="46" required oninvalid="this.setCustomValidity('')">
+				<div class="invalid-feedback"></div>
+			</div>
+			<!-- <div class="input-container">
+				<label for="email" class="form-label">Email:</label>
+				<input type="email" class="form-control" id="email" placeholder="Enter email" name="email"
+					pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" required
+					oninvalid="this.setCustomValidity(' ')">
+				<div class="invalid-feedback"></div>
+			</div> -->
+			
+			<div class="input-container">
+				<label class="form-label">Role:</label>
+				<!-- <fieldset> -->
+					<br>
+					<input id="set_role_student" type="radio" name="set_role" value="student" required oninvalid="this.setCustomValidity('')">
+					Student
+					<br>
+					<input id="set_role_teacher" type="radio" name="set_role" value="teacher" required oninvalid="this.setCustomValidity('')">
+					Teacher	
+					
+					<div class="invalid-feedback"><label></label></div>
+				<!-- </fieldset> -->
+				
+				
+			</div>
+			<div class="input-container">
+				<label for="password" class="form-label">Password:</label>
+				<input type="password" class="form-control" id="password" placeholder="Enter password" maxlength="25"
+				name="password" required oninvalid="this.setCustomValidity(' ')">
+				<!-- name="password" required> -->
+				<div class="invalid-feedback"></div>
+			</div>
+			<div class="input-container">
+				<label for="confirm-password" class="form-label">Confirm password:</label>
+				<input type="password" class="form-control" id="confirm-password" placeholder="Enter confirm password"
+				maxlength="25" name="confirm-password" required oninvalid="this.setCustomValidity(' ')">
+				<!-- maxlength="25" name="confirm-password" required > -->
+
+				<div class="invalid-feedback"></div>
+			</div>
+			<!-- <button type="submit" id="register"  -->
+			<button type="submit" class="btn btn-primary col-md-1" id="register" onclick="submitRegistrationForm(event)"
+				name="submit">Sign up</button>
+		</form>
+	</main>
+
+	<!-- <footer>
+		<p>
+			All rights reserved &reg; - H. Hristo and B. Zlatanov
+		<div id="currentDate"></div>
+		<script>	
+			let date = new Date();
+			let month = date.getMonth() + 1;
+			let day = date.getDate();
+			let year = date.getFullYear();
+
+			document.getElementById("currentDate").innerText = day + '/' + month + '/' + year;
+		</script>
+		</p>
+	</footer> -->
+</body>
+
+</html>

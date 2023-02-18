@@ -1,0 +1,19 @@
+room,holder,data,hour,duration,members
+room D,Milen Jordanov Petrov,07/02/2023,12:00,15,82013 82092
+room C,Milen Jordanov Petrov,07/02/2023,12:15,15,82013 66666 82092
+room B,Milen Jordanov Petrov,07/02/2023,12:30,15,82013 66666 11111 22222 55555
+Room Duplicate!,Milen Jordanov Petrov,07/02/2023,12:30,30,82013
+room A,Milen Jordanov Petrov,07/02/2023,12:45,30,82013 66666 44444 33333
+room posledniq,Milen Jordanov Petrov,07/02/2023,13:00,30,44444 33333
+Virtual room 1,Milen Jordanov Petrov,16/02/2023,10:15,15,11111
+Virtual room 2,Milen Jordanov Petrov,16/02/2023,10:30,20,22222
+Virtual room 3,Milen Jordanov Petrov,16/02/2023,10:45,15,33333
+Virtual room 4,Milen Jordanov Petrov,16/02/2023,11:00,10,44444
+Virtual room 5,Milen Jordanov Petrov,16/02/2023,11:15,14,82013 82092
+Virtual room 6,Milen Jordanov Petrov,16/02/2023,11:30,15,55555
+Virtual room 7,Milen Jordanov Petrov,16/02/2023,11:45,25,66666
+Virtual room 8,Milen Jordanov Petrov,16/02/2023,12:00,40,11111 55555
+Virtual room 9,Milen Jordanov Petrov,16/02/2023,12:15,15,44444 33333
+Virtual room 10,Milen Jordanov Petrov,16/02/2023,12:30,15,82092
+Now meet,Milen Jordanov Petrov,18/02/2023,16:50,10,82013
+Soon meet,Milen Jordanov Petrov,18/02/2023,17:52,10,82013

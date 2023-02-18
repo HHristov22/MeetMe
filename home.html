@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>MEETme</title>
+	<!-- MEETHUB -->
+
+	<!--website styles-->
+	<link rel="stylesheet" href="./style.css">
+	<!--google fonts-->
+	<link href="https://fonts.googleapis.com/css2?family=Joan&display=swap" rel="stylesheet">
+	<!-- JS files imports -->
+
+</head>
+
+<body>
+	<header>
+		<nav>
+			<div class="navbar" id="navbarNav">
+				<div id="logged-buttons">
+					<ul class="nav-ul">
+						<li class="nav-item">
+							<a href="./login.html">Sign in</a>
+						</li>
+						<li class="nav-item">
+							<a href="./register.html">Sign up</a>
+						</li>
+					</ul>
+				</div>
+				<div id="nav-buttons">
+					<ul class="nav-ul">
+						<li class="nav-item">
+							<a id="calendar" href="./calendar.html">Calendar</a>
+						</li>
+						<li class="nav-item">
+							<a id="home" href="./home.html">MEETME</a>
+						</li>
+						<li class="nav-item">
+							<a id="logout" href="./home.html" onclick="logOut()">Logout</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+		<h1>Welcome<span id="output"></span>!</h1>
+
+	</header>
+	<main>
+		<p class="title"></p>
+	</main>
+		
+	<!-- <footer id="f">
+		<p>
+			All rights reserved &reg; - H. Hristo and B. Zlatanov
+		<div id="currentDate"></div>
+		<script>
+			let date = new Date();
+			let month = date.getMonth() + 1;
+			let day = date.getDate();
+			let year = date.getFullYear();
+			document.getElementById("currentDate").innerText = day + '/' + month + '/' + year;
+		</script>
+		</p>
+	</footer> -->
+
+	<script src="./scripts/home.js"></script>
+</body>
+
+</html>

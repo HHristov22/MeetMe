@@ -1,0 +1,7 @@
+file.csv
+room -> "room name"
+holder -> "three names of teacher"
+data -> "date/month/year"
+hour -> "HH:MM"
+duration -> "empty or number" default=15
+members -> "members seperate by space"
