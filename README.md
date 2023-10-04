@@ -11,6 +11,7 @@ Entering a meeting is done by generating a link to meet jit si.
 If a meeting is delayed, students affected by it are informed about it. If needed, comments can also be written and are only visible to the instructor who created the meeting and the participants.
 
 ## Teacher
+
 1. Can create rooms
    - Choose the Virtual room name
    - Choose the Start date and time
@@ -23,6 +24,7 @@ If a meeting is delayed, students affected by it are informed about it. If neede
 3. to export already created rooms (.scv file)
 
 ## Student
+
 1. They see information about their meetings
    - Virtual room name
    - Start date and time

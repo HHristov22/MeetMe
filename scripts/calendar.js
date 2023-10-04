@@ -3,7 +3,6 @@ localStorage.setItem("room_numvers", 0);
 localStorage.setItem("room_student_create", 0);
 
 function reloadHelloUser() {
-
   let fullname = "";
 
   let isLogin = localStorage.getItem("login");
@@ -17,28 +16,23 @@ function reloadHelloUser() {
       student_calendar(localStorage.getItem("FN"));
     }
   }
-  if (fullname != "")
-    fullname = ", " + fullname;
+  if (fullname != "") fullname = ", " + fullname;
   //console.log("|" + fullname + "|");
   //document.getElementById("hello_user").innerText = "fullname";
-  document.getElementById('output').innerHTML = fullname;
+  document.getElementById("output").innerHTML = fullname;
 }
 
-
 function logOut() {
-
   localStorage.setItem("login", "0");
   reloadHelloUser();
 }
-
 
 function visibilityLoggedButtons() {
   // document.getElementById("f").style.display = "none";
   let isLogin = localStorage.getItem("login");
   if (isLogin == "1")
     document.getElementById("logged-buttons").style.display = "none";
-  else
-    document.getElementById("logged-buttons").style.display = "block";
+  else document.getElementById("logged-buttons").style.display = "block";
 }
 
 function visibilityNavButtons() {
@@ -46,16 +40,14 @@ function visibilityNavButtons() {
   let isLogin = localStorage.getItem("login");
   if (isLogin == "1")
     document.getElementById("nav-buttons").style.display = "block";
-  else
-    document.getElementById("nav-buttons").style.display = "none";
+  else document.getElementById("nav-buttons").style.display = "none";
 }
 
 if (localStorage.getItem("role") == "teacher") {
   document.getElementById("virtual-room").style.display = "flex";
   document.getElementById("AddMeet").style.display = "flex";
   document.getElementById("importButton").style.display = "block"; //show
-}
-else {
+} else {
   document.getElementById("virtual-room").style.display = "none";
   document.getElementById("AddMeet").style.display = "none";
   document.getElementById("importButton").style.display = "none"; // hide
@@ -73,83 +65,92 @@ var virtualroom_list = document.getElementById("meets-list");
 
 var memberList;
 
+const fileInput = document.getElementById("fileInput");
+fileInput.style.visibility = "hidden";
+const importButton = document.getElementById("importButton");
 
-const fileInput = document.getElementById('fileInput');
-fileInput.style.visibility = 'hidden';
-const importButton = document.getElementById('importButton');
-
-importButton.addEventListener('click', () => {
+importButton.addEventListener("click", () => {
   fileInput.click();
 });
 
-fileInput.addEventListener('change', (event) => {
+fileInput.addEventListener("change", (event) => {
   const file = event.target.files[0];
-  if (file.type != 'text/csv') {
-    console.log('Error: Selected file is not CSV file!');
+  if (file.type != "text/csv") {
+    console.log("Error: Selected file is not CSV file!");
     return;
   }
   console.log("filename:" + file.name);
   const reader = new FileReader();
-  reader.addEventListener('load', (event) => {
+  reader.addEventListener("load", (event) => {
     const filecontent = event.target.result;
-    if(filecontent.includes("\r\n"))
-    lines = filecontent.split("\r\n");
-    else
-    lines = filecontent.split("\n");
+    if (filecontent.includes("\r\n")) lines = filecontent.split("\r\n");
+    else lines = filecontent.split("\n");
     num_lines = lines.length;
     //  console.log(lines);
     console.log(lines);
     for (let index in lines) {
       if (index == 0) {
         console.log(lines[0]);
-        if (lines[0] != 'room,holder,data,hour,duration,members') {
+        if (lines[0] != "room,holder,data,hour,duration,members") {
           console.log(lines[0]);
-          console.log('Error: Selected file dosenot contains rooms!');
+          console.log("Error: Selected file dosenot contains rooms!");
           return;
         }
-      }
-      else if (lines[index] != ''/*index != num_lines - 1*/) {
+      } else if (lines[index] != "" /*index != num_lines - 1*/) {
         data = lines[index];
-        data = data.split(',');
+        data = data.split(",");
         //console.log(data);
-        roomname = data[0];//
-        holder = data[1];//
+        roomname = data[0]; //
+        holder = data[1]; //
         date = data[2];
-        date = date.split('/');
+        date = date.split("/");
         time = data[3];
-        time_new = time.split(':');
-        newdate = date[2] + "-" + date[1].padStart(2, '0') + "-" + date[0].padStart(2, '0') + "T" + time_new[0].padStart(2, '0')+":"+time_new[1].padStart(2, '0');
+        time_new = time.split(":");
+        newdate =
+          date[2] +
+          "-" +
+          date[1].padStart(2, "0") +
+          "-" +
+          date[0].padStart(2, "0") +
+          "T" +
+          time_new[0].padStart(2, "0") +
+          ":" +
+          time_new[1].padStart(2, "0");
         duration = data[4];
         //console.log(duration);
-        if (duration == '')
-          duration = 15;
+        if (duration == "") duration = 15;
         members_list = data[5];
         members_list = conv_members(members_list);
         let array = [holder, roomname, newdate, duration];
         array = array.concat(members_list);
         ///console.log(array);
         fetch("./models/create_room.php?variableName=" + array)
-          .then(response => response.text())
-          .then(data => {
+          .then((response) => response.text())
+          .then((data) => {
             if (data) {
               console.log("Room: " + roomname + " was added successfully");
-            }
-            else {
-              console.log("Room: " + roomname + " contains invalid information");
+            } else {
+              console.log(
+                "Room: " + roomname + " contains invalid information"
+              );
             }
           });
       }
       window.location.reload();
     }
-
-
   });
 
   reader.readAsText(file);
 });
 
-
-function addMeetToCalendar(virtualroom_name, meet_link, date_room, duration_romm, members_string, indexID) {
+function addMeetToCalendar(
+  virtualroom_name,
+  meet_link,
+  date_room,
+  duration_romm,
+  members_string,
+  indexID
+) {
   counter++;
   counter = counter % 2;
   indexID++;
@@ -202,8 +203,7 @@ function addMeetToCalendar(virtualroom_name, meet_link, date_room, duration_romm
     room_link.textContent = link_text;
     room_link.href = link_text;
     room_link.target = "_blank";
-  }
-  else {
+  } else {
     if (add_href_to_meet == 0) {
       room_link.textContent = "Available when meeting start.";
     }
@@ -262,7 +262,9 @@ function addMeetToCalendar(virtualroom_name, meet_link, date_room, duration_romm
   add_comment.className = "add_comments";
   add_comment.textContent = "Add comment";
   add_comment.id = "add_button" + indexID;
-  add_comment.onclick = function (e) { add_comment_function(e); };
+  add_comment.onclick = function (e) {
+    add_comment_function(e);
+  };
 
   var add_comment_input = document.createElement("input");
   add_comment_input.className = "add_comments_input";
@@ -273,7 +275,6 @@ function addMeetToCalendar(virtualroom_name, meet_link, date_room, duration_romm
   newcommentdiv.appendChild(add_comment_input);
   // -----------
 
-
   var div_label_com = document.createElement("div");
   div_label_com.id = "commentsdiv" + indexID;
   var label_com = document.createElement("label");
@@ -283,7 +284,9 @@ function addMeetToCalendar(virtualroom_name, meet_link, date_room, duration_romm
   visibility_comments.className = "vis_comments";
   visibility_comments.style.backgroundImage = "url(./images/show_button.png)";
   visibility_comments.id = "Vis_button" + indexID;
-  visibility_comments.onclick = function (e) { visibility(e); };
+  visibility_comments.onclick = function (e) {
+    visibility(e);
+  };
   div_label_com.appendChild(visibility_comments);
   div_label_com.appendChild(label_com);
 
@@ -326,55 +329,53 @@ function addMeetToCalendar(virtualroom_name, meet_link, date_room, duration_romm
   var label_delay_room = document.createElement("label");
   label_delay_room.textContent = "Extending mtg with:";
 
-  var select_delay_room = document.createElement('select');
+  var select_delay_room = document.createElement("select");
   select_delay_room.id = "delay_room" + indexID;
   select_delay_room.className = "box";
 
-
-  var option0 = document.createElement('option');
-  option0.value = '';
-  option0.text = 'Select delay';
+  var option0 = document.createElement("option");
+  option0.value = "";
+  option0.text = "Select delay";
   // faster
 
-  var option_5 = document.createElement('option');
-  option_5.value = '-5';
-  option_5.text = '-5 min';
-  var option_10 = document.createElement('option');
-  option_10.value = '-10';
-  option_10.text = '-10 min';
-  var option_15 = document.createElement('option');
-  option_15.value = '-15';
-  option_15.text = '-15 min';
-
+  var option_5 = document.createElement("option");
+  option_5.value = "-5";
+  option_5.text = "-5 min";
+  var option_10 = document.createElement("option");
+  option_10.value = "-10";
+  option_10.text = "-10 min";
+  var option_15 = document.createElement("option");
+  option_15.value = "-15";
+  option_15.text = "-15 min";
 
   // delay
-  var option00 = document.createElement('option');
-  option00.value = '0';
-  option00.text = 'ON TIME';
-  var option5 = document.createElement('option');
-  option5.value = '5';
-  option5.text = '5 min';
-  var option10 = document.createElement('option');
-  option10.value = '10';
-  option10.text = '10 min';
-  var option15 = document.createElement('option');
-  option15.value = '15';
-  option15.text = '15 min';
-  var option20 = document.createElement('option');
-  option20.value = '20';
-  option20.text = '20 min';
-  var option25 = document.createElement('option');
-  option25.value = '25';
-  option25.text = '25 min';
-  var option30 = document.createElement('option');
-  option30.value = '30';
-  option30.text = '30 min';
-  var option45 = document.createElement('option');
-  option45.value = '45';
-  option45.text = '45 min';
-  var option60 = document.createElement('option');
-  option60.value = '60';
-  option60.text = '1 hour';
+  var option00 = document.createElement("option");
+  option00.value = "0";
+  option00.text = "ON TIME";
+  var option5 = document.createElement("option");
+  option5.value = "5";
+  option5.text = "5 min";
+  var option10 = document.createElement("option");
+  option10.value = "10";
+  option10.text = "10 min";
+  var option15 = document.createElement("option");
+  option15.value = "15";
+  option15.text = "15 min";
+  var option20 = document.createElement("option");
+  option20.value = "20";
+  option20.text = "20 min";
+  var option25 = document.createElement("option");
+  option25.value = "25";
+  option25.text = "25 min";
+  var option30 = document.createElement("option");
+  option30.value = "30";
+  option30.text = "30 min";
+  var option45 = document.createElement("option");
+  option45.value = "45";
+  option45.text = "45 min";
+  var option60 = document.createElement("option");
+  option60.value = "60";
+  option60.text = "1 hour";
 
   select_delay_room.appendChild(option0);
   select_delay_room.appendChild(option_15);
@@ -406,20 +407,28 @@ function addMeetToCalendar(virtualroom_name, meet_link, date_room, duration_romm
     }
   });*/
 
-  select_delay_room.addEventListener('change', (event) => {
+  select_delay_room.addEventListener("change", (event) => {
     var index = event.target.id;
     index = index.replace(/[\D_]/g, "");
     id_element = "roomname" + index;
     var room_name = document.getElementById(id_element);
-    console.log(room_name.textContent + ": Delay-> " + event.target.value + " min.");
-    g_delay = document.getElementById("global_delay" + index).textContent.replace(/[\D_]/g, "");
-    list = room_name.textContent + "|" + parseInt(event.target.value) + "|" + g_delay;
+    console.log(
+      room_name.textContent + ": Delay-> " + event.target.value + " min."
+    );
+    g_delay = document
+      .getElementById("global_delay" + index)
+      .textContent.replace(/[\D_]/g, "");
+    list =
+      room_name.textContent +
+      "|" +
+      parseInt(event.target.value) +
+      "|" +
+      g_delay;
     console.log(list);
     fetch("./models/delay_room.php?variableName=" + list)
-      .then(response => response.text())
-      .then(data => {
-        if (data)
-          window.location.reload();
+      .then((response) => response.text())
+      .then((data) => {
+        if (data) window.location.reload();
       });
   });
   //////////// global delay ////////////////////////////
@@ -440,13 +449,14 @@ function addMeetToCalendar(virtualroom_name, meet_link, date_room, duration_romm
   global_delay_room_div.appendChild(linebreak_global_delay_room);
   global_delay_room_div.appendChild(label_global_delay_room_min);
 
-
   /////////////// delete button //////////////////
   var delete_button = document.createElement("button");
   delete_button.className = "delete-rome-button";
   // delete_button.textContent = "8"; //☒🗑❌
   delete_button.id = "del_button" + indexID;
-  delete_button.onclick = function (e) { del_room(e); };
+  delete_button.onclick = function (e) {
+    del_room(e);
+  };
 
   newvirtualroom.appendChild(datadiv);
   newvirtualroom.appendChild(virtualroomdiv);
@@ -458,10 +468,13 @@ function addMeetToCalendar(virtualroom_name, meet_link, date_room, duration_romm
   if (localStorage.getItem("role") == "teacher") {
     newvirtualroom.appendChild(delete_button);
     get_room_delay(virtualroom_name, label_delay_this_room);
-  }
-  else {
+  } else {
     select_delay_room.style.visibility = "hidden";
-    get_gloabl_delay(virtualroom_name, label_delay_this_room, label_global_delay_room_min);
+    get_gloabl_delay(
+      virtualroom_name,
+      label_delay_this_room,
+      label_global_delay_room_min
+    );
   }
 
   virtualroom_list.appendChild(linebreak5);
@@ -483,22 +496,21 @@ function addMeetToCalendar(virtualroom_name, meet_link, date_room, duration_romm
 function get_room_delay(roomname, room_delay) {
   // console.log(roomname);
   fetch("./models/get_room_delay.php?variableName=" + roomname)
-    .then(response => response.text())
-    .then(data => {
+    .then((response) => response.text())
+    .then((data) => {
       room_delay.textContent = data + " min.";
       // console.log("TUK!!!!");
       T = localStorage.getItem("Start_calculation");
       T++;
       localStorage.setItem("Start_calculation", T);
     });
-
 }
 
 function get_gloabl_delay(roomname, delay, global_delay) {
   console.log(roomname);
   fetch("./models/get_global_delay.php?variableName=" + roomname)
-    .then(response => response.text())
-    .then(data => {
+    .then((response) => response.text())
+    .then((data) => {
       data = data.split(",");
       delay.textContent = data[0] + " min.";
       global_delay.textContent = data[1] + " min.";
@@ -509,7 +521,6 @@ function get_gloabl_delay(roomname, delay, global_delay) {
       R++;
       localStorage.setItem("room_student_create", R);
     });
-
 }
 
 function meet_time(meet_start, duration_romm) {
@@ -527,15 +538,13 @@ function meet_time(meet_start, duration_romm) {
     return 1;
   }*/
 
-
   if (now < startDate) {
     return 0;
   } else if (now > endDate) {
-    return 2
+    return 2;
   } else {
     return 1;
   }
-
 }
 
 function add_comment_function(e) {
@@ -549,22 +558,20 @@ function add_comment_function(e) {
   var room = document.getElementById(id_room_name);
   room_name = room.textContent;
   comment_text = comment.value;
-  dupp_comm = comment_text.replace(/ /g, '');
+  dupp_comm = comment_text.replace(/ /g, "");
   var list = room_name + "|" + holder + "|" + comment_text;
   console.log(list);
   if (dupp_comm.length > 0) {
     fetch("./models/add_comment.php?variableName=" + list)
-      .then(response => response.text())
-      .then(data => {
+      .then((response) => response.text())
+      .then((data) => {
         if (data) {
           console.log("ADDD.............");
           window.location.reload();
-        }
-        else {
+        } else {
           console.log("No");
         }
       });
-
   }
   //console.log(list);
 }
@@ -574,9 +581,9 @@ async function add_get_comments(someVariable, div_comments_id, ID_div) {
     const response = await fetch("./models/room_comments.php", {
       method: "POST",
       headers: {
-        "Content-Type": "application/x-www-form-urlencoded"
+        "Content-Type": "application/x-www-form-urlencoded",
       },
-      body: `someVariable=${someVariable}`
+      body: `someVariable=${someVariable}`,
     });
     let data = await response.text();
     data = data.slice(1);
@@ -596,7 +603,7 @@ async function add_get_comments(someVariable, div_comments_id, ID_div) {
 
         var div_single_com = document.createElement("div");
         div_single_com.className = "div_single_comment";
-        // div_single_com.id = "comments_" + ID_div; 
+        // div_single_com.id = "comments_" + ID_div;
 
         div_single_com.appendChild(label_holder);
         div_single_com.appendChild(label_com);
@@ -604,8 +611,7 @@ async function add_get_comments(someVariable, div_comments_id, ID_div) {
         var all_comms = document.getElementById(div_comments_id);
         all_comms.appendChild(div_single_com);
       }
-    }
-    else {
+    } else {
       element1id = "commentsdiv" + ID_div;
       element2id = "comments_list" + ID_div;
 
@@ -621,10 +627,13 @@ async function add_get_comments(someVariable, div_comments_id, ID_div) {
 
 function generate_meet_jit_si_link() {
   let link = "Shit";
-  const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  const characters =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
   let randomString = "";
   for (let i = 0; i < 8; i++) {
-    randomString += characters.charAt(Math.floor(Math.random() * characters.length));
+    randomString += characters.charAt(
+      Math.floor(Math.random() * characters.length)
+    );
   }
   randomString = "https://meet.jit.si/" + randomString;
   return randomString;
@@ -636,17 +645,16 @@ function addXmintodata(datestr, min) {
   after.setMinutes(after.getMinutes() + min);
 
   let year = after.getFullYear();
-  let month = String(after.getMonth() + 1).padStart(2, '0');
-  let day = String(after.getDate()).padStart(2, '0');
-  let hours = String(after.getHours()).padStart(2, '0');
-  let minutes = String(after.getMinutes()).padStart(2, '0');
+  let month = String(after.getMonth() + 1).padStart(2, "0");
+  let day = String(after.getDate()).padStart(2, "0");
+  let hours = String(after.getHours()).padStart(2, "0");
+  let minutes = String(after.getMinutes()).padStart(2, "0");
 
   let dateString = `${year}-${month}-${day}T${hours}:${minutes}`;
   return dateString;
 }
 
 function visibility(e) {
-
   let button_id = e.target.id;
   var button = document.getElementById(button_id);
   indexID = button_id.replace(/[\D_]/g, "");
@@ -685,14 +693,13 @@ function del_room(e) {
   members_for_delete = members.textContent;
   //console.log("|"+members_for_delete+"|");
   fetch("./models/delete_room.php?variableName=" + room_for_delete)
-    .then(response => response.text())
-    .then(data => {
+    .then((response) => response.text())
+    .then((data) => {
       // console.log("ALL ROOM:\n");
       if (data) {
-
         fetch("./models/delete_comments.php?variableName=" + room_for_delete)
-          .then(response => response.text())
-          .then(data => {
+          .then((response) => response.text())
+          .then((data) => {
             // console.log("ALL ROOM:\n");
             if (data) {
               //console.log("Del! YESS");
@@ -706,11 +713,8 @@ function del_room(e) {
             }
           });
       }
-
     });
-
 }
-
 
 function addMeet(event) {
   event.preventDefault();
@@ -718,8 +722,8 @@ function addMeet(event) {
 }
 
 function validateMeet(result) {
-  let room = document.getElementById('room');
-  let members = document.getElementById('members');
+  let room = document.getElementById("room");
+  let members = document.getElementById("members");
   let properties = [room, members];
   let check = 0;
   properties.forEach((property, index) => {
@@ -731,16 +735,19 @@ function validateMeet(result) {
       if (validityState.valueMissing) {
         outputMissing = property.getAttribute("name");
         outputMissing = outputMissing[0].toUpperCase() + outputMissing.slice(1);
-        errorSection.innerHTML = '\'' + outputMissing + '\' is missing.';
+        errorSection.innerHTML = "'" + outputMissing + "' is missing.";
         //console.log("Missing");
         check = index + 1;
       }
       errorSection.style.display = "block";
     }
-    if (property.value.length < property.minLength || property.value.length > property.maxLength) {
+    if (
+      property.value.length < property.minLength ||
+      property.value.length > property.maxLength
+    ) {
       let outputMissing = property.getAttribute("name");
       outputMissing = outputMissing[0].toUpperCase() + outputMissing.slice(1);
-      errorSection.innerHTML = 'Enter valid: ' + outputMissing + '.';
+      errorSection.innerHTML = "Enter valid: " + outputMissing + ".";
       check = index + 1;
 
       errorSection.style.display = "block";
@@ -751,13 +758,12 @@ function validateMeet(result) {
       let lenmembers = str.length;
       outputMissing = property.getAttribute("name");
       if (lenmembers % 6 != 5) {
-        errorSection.innerHTML = 'Enter valid: ' + outputMissing + '.';
+        errorSection.innerHTML = "Enter valid: " + outputMissing + ".";
         check = index + 1;
-      }
-      else {
+      } else {
         for (let i = 0; i < lenmembers; i++) {
-          if ((str[i] == ' ' && (i + 1) % 6 != 0) || isNaN(str[i])) {
-            errorSection.innerHTML = 'Enter valid: ' + outputMissing + '.';
+          if ((str[i] == " " && (i + 1) % 6 != 0) || isNaN(str[i])) {
+            errorSection.innerHTML = "Enter valid: " + outputMissing + ".";
             check = index + 1;
             break;
           }
@@ -775,7 +781,7 @@ function validateMeet(result) {
       errorSection.innerHTML = "";
       errorSection.style.display = "none";
     }
-  })
+  });
   if (check == 0) {
     let R = 1;
     let S = 1;
@@ -819,7 +825,7 @@ function validateMeet(result) {
         // console.log(students);
         students = students.map(Number);
         /*console.log(students);*/
-        if (!membersforCheck.every(elem => students.includes(elem))) {
+        if (!membersforCheck.every((elem) => students.includes(elem))) {
           //console.log("Some FNs are invalid.");
           S = 0;
           //members.nextElementSibling.innerHTML = "Some FNs are invalid.";
@@ -838,17 +844,16 @@ function validateMeet(result) {
         fullname = localStorage.getItem("userFullname");
         //roomname // newroom
         let datatime = document.getElementById("data_time");
-        let duration = document.getElementById('duration');
+        let duration = document.getElementById("duration");
         let dur = duration.value;
-        if (dur == "")
-          dur = 15;
+        if (dur == "") dur = 15;
         console.log("dur" + dur);
         let array = [fullname, roomname, datatime.value, dur];
         array = array.concat(membersforCheck);
         ///console.log(array);
         fetch("./models/create_room.php?variableName=" + array)
-          .then(response => response.text())
-          .then(data => {
+          .then((response) => response.text())
+          .then((data) => {
             ////console.log(data);
             if (data) {
               // let datatime = document.getElementById("data_time");
@@ -857,8 +862,7 @@ function validateMeet(result) {
               //refresh_calendar(fullname);
             }
           });
-      }
-      else {
+      } else {
         //console.log("No");
       }
     }, 440);
@@ -867,42 +871,38 @@ function validateMeet(result) {
   }
 }
 
-
 function conv_members(str) {
   let mem_list = str.split(" ").map(Number);
   return mem_list;
 }
 
-
 function refresh_calendar(teacher) {
   fetch("./models/teacher_room.php?variableName=" + teacher)
-    .then(response => response.text())
-    .then(data => {
+    .then((response) => response.text())
+    .then((data) => {
       // console.log("ALL ROOM:\n");
       //console.log("|*"+data+"*|");
-      if (data.length > 1)
-        teachersroom(data);
+      if (data.length > 1) teachersroom(data);
     });
 }
 
 function student_calendar(fn_student) {
   fetch("./models/student_room.php?variableName=" + fn_student)
-    .then(response => response.text())
-    .then(data => {
+    .then((response) => response.text())
+    .then((data) => {
       // console.log("ALL ROOM:\n");
       // console.log(fn_student);
       // console.log("@" + data + "@");
-      if (data.length > 2)
-        studentsroom(data);
-      else
-        emptystudentcalendar();
+      if (data.length > 2) studentsroom(data);
+      else emptystudentcalendar();
     });
 }
 
 function emptystudentcalendar() {
   var zerovirtualroomlabel = document.createElement("h2");
   zerovirtualroomlabel.className = "emptycalendar";
-  zerovirtualroomlabel.textContent = "\"You have no virtual meetings scheduled for today. Enjoy your free time!\"";
+  zerovirtualroomlabel.textContent =
+    '"You have no virtual meetings scheduled for today. Enjoy your free time!"';
   // zerovirtualroomlabel.id = "roomname" + indexID;
 
   var elem_header = document.getElementById("header");
@@ -946,8 +946,14 @@ function teachersroom(data) {
     let duration_romm = room[0];
     room.shift();
     let roommembers = room.join(", ");
-    let T = addMeetToCalendar(roomname, meet_link, data_time_room, duration_romm, roommembers, index);
-
+    let T = addMeetToCalendar(
+      roomname,
+      meet_link,
+      data_time_room,
+      duration_romm,
+      roommembers,
+      index
+    );
 
     // console.log("N: "+ localStorage.getItem("room_numvers")+" I" +localStorage.getItem("Start_calculation"));
   }
@@ -973,13 +979,17 @@ function teachersroom(data) {
       let meetdata2 = document.getElementById(id2);
       let dur2 = document.getElementById(id2_dur);
 
-      let conflict = check_meets(meetdata1.textContent, dur1.textContent, meetdata2.textContent, dur2.textContent);
+      let conflict = check_meets(
+        meetdata1.textContent,
+        dur1.textContent,
+        meetdata2.textContent,
+        dur2.textContent
+      );
       // console.log("i:"+i+" " + meetdata1.textContent+ " " +dur1.textContent+ "j:"+j + " "+ meetdata2.textContent+ " " +dur2.textContent + "-> "+ conflict)
       if (conflict) {
         listdup.push(i);
         listdup.push(j);
       }
-
     }
   }
   // console.log(listdup);
@@ -995,7 +1005,6 @@ function teachersroom(data) {
     div.className = "newvirtualroom_dup";
   }*/
 
-
   // setTimeout(function () {add_global_delay(N)},1000);
   let intervalId = setInterval(() => {
     let A = localStorage.getItem("Start_calculation");
@@ -1007,9 +1016,7 @@ function teachersroom(data) {
       add_global_delay(N);
       export_button();
     }
-  })
-
-
+  });
 }
 
 function export_button() {
@@ -1017,7 +1024,9 @@ function export_button() {
   export_button.className = "exportMeets";
   export_button.textContent = "Export meets";
   export_button.id = "exportButton";
-  export_button.onclick = function (e) { export_meets(); };
+  export_button.onclick = function (e) {
+    export_meets();
+  };
   var virtualroom_list = document.getElementById("meets-list");
   virtualroom_list.appendChild(export_button);
 }
@@ -1026,9 +1035,7 @@ function export_meets() {
   let N = localStorage.getItem("room_numvers");
   console.log("........->" + N);
 
-  let data = [
-    ["room", "holder", "data", "hour", "duration", "members"]
-  ];
+  let data = [["room", "holder", "data", "hour", "duration", "members"]];
   console.log("N->" + N);
   for (let i = 1; i <= N; i++) {
     let room_ex = document.getElementById("roomname" + i).textContent;
@@ -1037,11 +1044,12 @@ function export_meets() {
     fulldate = fulldate.split(" ");
     let data_mid = fulldate[0].replace(/-/g, "/");
     data_mid = data_mid.split("/");
-    let data_ex = data_mid[2] + "/"+ data_mid[1] + "/"+data_mid[0];
-
+    let data_ex = data_mid[2] + "/" + data_mid[1] + "/" + data_mid[0];
 
     let hour_ex = fulldate[1];
-    let duration_ex = parseInt(document.getElementById("roomduration" + i).textContent);
+    let duration_ex = parseInt(
+      document.getElementById("roomduration" + i).textContent
+    );
     let members_ex = document.getElementById("members_list" + i).textContent;
     members_ex = members_ex.replace(/,/g, "");
     console.log(members_ex);
@@ -1052,30 +1060,29 @@ function export_meets() {
 
   teacher = localStorage.getItem("userFullname");
 
-
   const now = new Date();
 
   const year = now.getFullYear();
-  const month = String(now.getMonth() + 1).padStart(2, '0'); // Month is 0-indexed, so add 1 to get the actual month
-  const day = String(now.getDate()).padStart(2, '0');
+  const month = String(now.getMonth() + 1).padStart(2, "0"); // Month is 0-indexed, so add 1 to get the actual month
+  const day = String(now.getDate()).padStart(2, "0");
 
-  const hour = String(now.getHours()).padStart(2, '0');
-  const minute = String(now.getMinutes()).padStart(2, '0');
-  const second = String(now.getSeconds()).padStart(2, '0');
+  const hour = String(now.getHours()).padStart(2, "0");
+  const minute = String(now.getMinutes()).padStart(2, "0");
+  const second = String(now.getSeconds()).padStart(2, "0");
 
-  date = day + "-" + month + "-" + year + "_H" + hour + "-" + minute + "-" + second;
+  date =
+    day + "-" + month + "-" + year + "_H" + hour + "-" + minute + "-" + second;
   let date_export_file = date;
 
-
   const name_file = teacher.replace(/ /g, "_") + "_D" + date_export_file;
-  const csvString = data.map(row => row.join(',')).join('\n');
-  const blob = new Blob([csvString], { type: 'text/csv;charset=utf-8;' });
+  const csvString = data.map((row) => row.join(",")).join("\n");
+  const blob = new Blob([csvString], { type: "text/csv;charset=utf-8;" });
   const url = URL.createObjectURL(blob);
 
-  const link = document.createElement('a');
+  const link = document.createElement("a");
   link.href = url;
   link.download = name_file;
-  link.style.display = 'none';
+  link.style.display = "none";
   document.body.appendChild(link);
   link.click();
 
@@ -1099,12 +1106,11 @@ function check_meets(meetdata1, dur1, meetdata2, dur2) {
   let endDate2 = new Date(meetdata2);
   endDate2.setMinutes(endDate2.getMinutes() + duration2);
 
-  if ((startDate1 <= startDate2 && endDate1 > startDate2)) {
+  if (startDate1 <= startDate2 && endDate1 > startDate2) {
     return true;
   }
   return false;
 }
-
 
 function studentsroom(data) {
   data = data.slice(1);
@@ -1136,7 +1142,14 @@ function studentsroom(data) {
     roommembers = roommembers.replace(",", " -"); //roommembers = roommembers.replace(",", " Students:");
     roommembers = roommembers; //roommembers = "Teacher: " + roommembers;
     // console.log(roomname + "->" + roommembers);
-    addMeetToCalendar(roomname, meet_link, data_time_room, duration_romm, roommembers, index);
+    addMeetToCalendar(
+      roomname,
+      meet_link,
+      data_time_room,
+      duration_romm,
+      roommembers,
+      index
+    );
   }
   //console.log(list.length);
   let i = 0;
@@ -1160,13 +1173,17 @@ function studentsroom(data) {
       let meetdata2 = document.getElementById(id2);
       let dur2 = document.getElementById(id2_dur);
 
-      let conflict = check_meets(meetdata1.textContent, dur1.textContent, meetdata2.textContent, dur2.textContent);
+      let conflict = check_meets(
+        meetdata1.textContent,
+        dur1.textContent,
+        meetdata2.textContent,
+        dur2.textContent
+      );
       // console.log("i:"+i+" " + meetdata1.textContent+ " " +dur1.textContent+ "j:"+j + " "+ meetdata2.textContent+ " " +dur2.textContent + "-> "+ conflict)
       if (conflict) {
         listdup.push(i);
         listdup.push(j);
       }
-
     }
   }
   listdup = [...new Set(listdup)];
@@ -1179,11 +1196,9 @@ function studentsroom(data) {
       clearInterval(intervalId);
       room_color(N);
       console.log("START_color");
-
     }
-  })
+  });
 }
-
 
 function add_global_delay(N) {
   // N = 0;
@@ -1199,23 +1214,31 @@ function add_global_delay(N) {
     roomname = document.getElementById("roomname" + j).textContent;
     extendet = document.getElementById("delay_this_room" + i).textContent;
     //console.log(roomname);
-    let diff = diff_beetween_two_meets(id_start_meet1, id_duration, id_start_meet2, delay_global1, delay_global2, extendet);
+    let diff = diff_beetween_two_meets(
+      id_start_meet1,
+      id_duration,
+      id_start_meet2,
+      delay_global1,
+      delay_global2,
+      extendet
+    );
     //console.log(diff)
     if (diff < 0) {
       let delay2 = parseInt(delay_global2.textContent.replace(/[\D_]/g, ""));
-      delay2 += (diff * -1);
+      delay2 += diff * -1;
       delay_global2.textContent = delay2 + " min.";
       diff = -1 * diff;
-    }
-    else {
+    } else {
       diff = 0;
     }
-    room_delay = parseInt(document.getElementById("delay_this_room" + j).textContent);
+    room_delay = parseInt(
+      document.getElementById("delay_this_room" + j).textContent
+    );
     list = roomname + "|" + room_delay + "|" + diff;
     // console.log(list);
     fetch("./models/delay_room.php?variableName=" + list)
-      .then(response => response.text())
-      .then(data => {
+      .then((response) => response.text())
+      .then((data) => {
         // console.log(data + "|");
       });
   }
@@ -1224,7 +1247,6 @@ function add_global_delay(N) {
 
 function room_color(N) {
   for (let i = 1; i <= N; i++) {
-
     id = "newvirtualroom" + i;
     let div = document.getElementById(id);
     let id_delay_global = "global_delay" + i;
@@ -1232,19 +1254,15 @@ function room_color(N) {
     let delay1 = parseInt(delay_global.textContent);
     // console.log(delay1);
     if (delay1 > 0) {
-      if (delay1 > 60)
-        delay1 = 60;
-      delay1 = delay1 * 25 / 10;
-      let B = 255 - parseInt(delay1);  //255 - 105 //100-> RED
+      if (delay1 > 60) delay1 = 60;
+      delay1 = (delay1 * 25) / 10;
+      let B = 255 - parseInt(delay1); //255 - 105 //100-> RED
       div.style.backgroundColor = "rgb(255, " + B + ", 0, 0.4)";
-    }
-    else
-      div.style.backgroundColor = "(255, 255, 255, 0.2)";
+    } else div.style.backgroundColor = "(255, 255, 255, 0.2)";
   }
 }
 
 function diff_beetween_two_meets(id_s1, dur, id_s2, d1, d2, extendetn) {
-
   let el_s1 = document.getElementById(id_s1);
   let el_dur = document.getElementById(dur);
   let el_s2 = document.getElementById(id_s2);
@@ -1270,5 +1288,4 @@ function diff_beetween_two_meets(id_s1, dur, id_s2, d1, d2, extendetn) {
 
   // console.log("S:" + startDate1+ " E: "+endDate1+ " S-> "+startDate2 + "DIFF" +difference);
   return difference;
-
 }

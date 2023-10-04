@@ -1,55 +1,77 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>MEETme</title>
 
-<head>
-	<meta charset="UTF-8">
-	<title>MEETme</title>
+    <!--website styles-->
+    <link rel="stylesheet" href="./style.css" />
+    <!--google fonts-->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Joan&display=swap"
+      rel="stylesheet"
+    />
+    <!--		JS files imports-->
+    <script src="./scripts/login.js"></script>
+  </head>
 
-	<!--website styles-->
-	<link rel="stylesheet" href="./style.css">
-	<!--google fonts-->
-	<link href="https://fonts.googleapis.com/css2?family=Joan&display=swap" rel="stylesheet">
-	<!--		JS files imports-->
-	<script src="./scripts/login.js"></script>
+  <body>
+    <header>
+      <nav>
+        <div id="logged-buttons">
+          <ul class="nav-ul">
+            <li class="nav-item">
+              <a href="./login.html">Sign in</a>
+            </li>
+            <li class="nav-item">
+              <a href="./register.html">Sign up</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+      <h1>Sign in to MEETme</h1>
+    </header>
 
-</head>
+    <main class="container-fluid">
+      <form class="form needs-validation" method="post" novalidate>
+        <div class="input-container">
+          <label for="username" class="form-label">FN:</label>
+          <input
+            type="text"
+            class="form-control"
+            id="username"
+            name="username"
+            maxlength="5"
+            placeholder="Enter username"
+            required
+          />
+          <div class="invalid-feedback"></div>
+        </div>
+        <div class="input-container">
+          <label for="password" class="form-label">Password:</label>
+          <input
+            type="password"
+            class="form-control"
+            id="password"
+            name="password"
+            maxlength="25"
+            placeholder="Enter password"
+            required
+          />
+          <div class="invalid-feedback"></div>
+        </div>
+        <button
+          type="submit"
+          class="btn btn-primary col-md-1"
+          id="submit-button"
+          onclick="submitLoginForm(event)"
+        >
+          Sign in
+        </button>
+      </form>
+    </main>
 
-<body>
-	<header>
-		<nav>
-			<div id="logged-buttons">
-				<ul class="nav-ul">
-					<li class="nav-item">
-						<a href="./login.html">Sign in</a>
-					</li>
-					<li class="nav-item">
-						<a href="./register.html">Sign up</a>
-					</li>
-				</ul>
-			</div>
-			</nav>
-		<h1>Sign in to MEETme</h1>
-	</header>
-
-	<main class="container-fluid">
-		<form class="form needs-validation" method="post" novalidate>
-			<div class="input-container">
-				<label for="username" class="form-label">FN:</label>
-				<input type="text" class="form-control" id="username" name="username" maxlength="5"
-					placeholder="Enter username" required>
-				<div class="invalid-feedback"></div>
-			</div>
-			<div class="input-container">
-				<label for="password" class="form-label">Password:</label>
-				<input type="password" class="form-control" id="password" name="password" maxlength="25"
-					placeholder="Enter password" required>
-				<div class="invalid-feedback"></div>
-			</div>
-			<button type="submit" class="btn btn-primary col-md-1" id="submit-button" onclick="submitLoginForm(event)">Sign in</button>
-		</form>
-	</main>
-
-	<!-- <footer>
+    <!-- <footer>
 		<p>
 			All rights reserved &reg; - H. Hristo and B. Zlatanov
 		<div id="currentDate"></div>
@@ -64,6 +86,5 @@
 		</script>
 		</p>
 	</footer> -->
-</body>
-
+  </body>
 </html>
