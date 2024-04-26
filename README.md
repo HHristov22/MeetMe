@@ -8,7 +8,7 @@ Each teacher can create and delete as many virtual rooms as he needs for an exam
 
 Entering a meeting is done by generating a link to meet jit si.
 
-If a meeting is delayed, students affected by it are informed about it. If needed, comments can also be written and are only visible to the instructor who created the meeting and the participants.
+If a meeting is delayed, students affected by it are informed about it. If needed, comments can also be written and are only visible to the teacher who created the meeting and the participants.
 
 ## Teacher
 
@@ -30,5 +30,5 @@ If a meeting is delayed, students affected by it are informed about it. If neede
    - Start date and time
    - Duration of the meeting
    - Participants (The teacher and the other members)
-   - Whether the meeting has a delay
+   - Does the meeting have a delay
 2. Can add comments
